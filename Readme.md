@@ -31,7 +31,7 @@ ExampleTester(){
 After this you can add test functions
 ```cpp
     //For example in the constructor
-    this->AddTestFunction("This is a test function", [this]() {
+    this->AddTestFunction("This is the test function 1", [this]() {
             // The function body
             // Notice that when we create the lambda function 
             // we want to capture this
@@ -49,6 +49,15 @@ After this you can run all the tests, with the RunAll function
 int main(int argc, char const* argv[]) {
     ExampleTester Tester;
     Tester.RunAll(); // Runs all the test functions
+
+    /* Output will look like:
+    Running tests for Example tester:
+        This is the test function 1 -> Passed
+        This is the test function 2 -> Passed
+        ...
+        This is the test function n -> Passed
+    */
+
     return 0;
 }
 ```
