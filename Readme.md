@@ -50,7 +50,7 @@ int main(int argc, char const* argv[]) {
     ExampleTester Tester;
     Tester.RunAll(); // Runs all the test functions
 
-    /* Output will look like:
+    /* Output will look something like this:
     Running tests for Example tester:
         This is the test function 1 -> Passed
         This is the test function 2 -> Passed
