@@ -57,22 +57,28 @@ class Stack {
     }
 };
 
+// Inherit from UnitTest
 class StackTester : public UnitTest {
    private:
     Stack<int> theStack;
 
-    void Before() {
+    // Runs before each test function
+    void Before() override {
         this->theStack = Stack<int>();
     }
 
    public:
     StackTester() {
+        // Sets the title to Stack
         this->SetTitle("Stack");
+
+        // Adds the test function
         this->AddTestFunction("Create an empty Stack", [this]() {
             assert(this->theStack.isEmpty());
             assert(this->theStack.size() == 0);
         });
 
+        // Adds the test function
         this->AddTestFunction("One push", [this]() {
             assert(this->theStack.isEmpty());
             this->theStack.push(1);
@@ -81,6 +87,7 @@ class StackTester : public UnitTest {
             assert(this->theStack.top() == 1);
         });
 
+        // Adds the test function
         this->AddTestFunction("Two pushes", [this]() {
             assert(this->theStack.isEmpty());
             this->theStack.push(1);
@@ -98,6 +105,8 @@ class StackTester : public UnitTest {
             assert(this->theStack.isEmpty());
             assert(this->theStack.size() == 0);
         });
+
+        // Adds the test function
         this->AddTestFunction("Exception tests", [this]() {
             try {
                 this->theStack.pop();
@@ -109,7 +118,19 @@ class StackTester : public UnitTest {
 };
 
 int main(int argc, char const* argv[]) {
-    StackTester t;
-    t.RunAll();
+    // Instantiating the tester
+    StackTester StackTest;
+
+    // Running All tests
+    StackTest.RunAll();
+
+    /* Output:
+    Running tests for Stack:
+        Create an empty Stack -> Passed
+        One push -> Passed
+        Two pushes -> Passed
+        Exception tests -> Passed
+    */
+
     return 0;
 }
