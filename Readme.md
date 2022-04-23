@@ -1,6 +1,6 @@
 # CppUnitTest
 
-A very basic unittester framework for C++.
+A very basic unittest framework for C++.
 
 ## Installation
 
