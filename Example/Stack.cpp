@@ -14,10 +14,20 @@ class Stack {
     Node*  Tail;
     size_t Size;
 
+    void DeallocAll(Node* Current) {
+        if (Current == nullptr) return;
+
+        DeallocAll(Current->Previous);
+        delete Current;
+    }
+
    public:
     Stack() {
         this->Tail = nullptr;
         this->Size = 0;
+    }
+    ~Stack() {
+        this->clear();
     }
 
     void push(Data Element) {
@@ -53,18 +63,29 @@ class Stack {
     }
 
     bool isEmpty() {
-        return this->Tail == nullptr;
+        return this->Size == 0;
+    }
+
+    void clear() {
+        this->DeallocAll(this->Tail);
+        this->Tail = nullptr;
+        this->Size = 0;
     }
 };
 
 // Inherit from UnitTest
 class StackTester : public UnitTest {
    private:
-    Stack<int> theStack;
+    Stack<int>* theStack;
 
     // Runs before each test function
     void Before() override {
-        this->theStack = Stack<int>();
+        this->theStack = new Stack<int>();
+    }
+
+    // Runs after each test function
+    void After() override {
+        delete this->theStack;
     }
 
    public:
@@ -74,42 +95,53 @@ class StackTester : public UnitTest {
 
         // Adds the test function
         this->AddTestFunction("Create an empty Stack", [this]() {
-            assert(this->theStack.isEmpty());
-            assert(this->theStack.size() == 0);
+            assert(this->theStack->isEmpty());
+            assert(this->theStack->size() == 0);
+        });
+
+        // Adds the test function
+        this->AddTestFunction("Clear stack", [this]() {
+            assert(this->theStack->isEmpty());
+            this->theStack->push(1);
+            this->theStack->push(2);
+            this->theStack->push(3);
+
+            this->theStack->clear();
+            assert(this->theStack->isEmpty());
         });
 
         // Adds the test function
         this->AddTestFunction("One push", [this]() {
-            assert(this->theStack.isEmpty());
-            this->theStack.push(1);
-            assert(this->theStack.size() == 1);
-            assert(!this->theStack.isEmpty());
-            assert(this->theStack.top() == 1);
+            assert(this->theStack->isEmpty());
+            this->theStack->push(1);
+            assert(this->theStack->size() == 1);
+            assert(!this->theStack->isEmpty());
+            assert(this->theStack->top() == 1);
         });
 
         // Adds the test function
         this->AddTestFunction("Two pushes", [this]() {
-            assert(this->theStack.isEmpty());
-            this->theStack.push(1);
-            this->theStack.push(2);
+            assert(this->theStack->isEmpty());
+            this->theStack->push(1);
+            this->theStack->push(2);
 
-            assert(!this->theStack.isEmpty());
-            assert(this->theStack.size() == 2);
+            assert(!this->theStack->isEmpty());
+            assert(this->theStack->size() == 2);
 
-            assert(this->theStack.pop() == 2);
+            assert(this->theStack->pop() == 2);
 
-            assert(this->theStack.size() == 1);
+            assert(this->theStack->size() == 1);
 
-            assert(this->theStack.pop() == 1);
+            assert(this->theStack->pop() == 1);
 
-            assert(this->theStack.isEmpty());
-            assert(this->theStack.size() == 0);
+            assert(this->theStack->isEmpty());
+            assert(this->theStack->size() == 0);
         });
 
         // Adds the test function
         this->AddTestFunction("Exception tests", [this]() {
             try {
-                this->theStack.pop();
+                this->theStack->pop();
                 assert(0);
             } catch (const std::exception& e) {
             }
