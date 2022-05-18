@@ -159,6 +159,7 @@ int main(int argc, char const* argv[]) {
     /* Output:
     Running tests for Stack:
         Create an empty Stack -> Passed
+        Clear stack -> Passed
         One push -> Passed
         Two pushes -> Passed
         Exception tests -> Passed
